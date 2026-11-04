@@ -1,27 +1,31 @@
 @import "tailwindcss";
 
+/* Design tokens lifted from tweakmo.de:
+   --black #000 / --hot #ff2400 / --white / --bone #c9c9c9 / --dim #7a7a7a
+   --edge #1b1b1b / --panel #0a0a0a; Archivo Black display, Geist Mono labels. */
 @theme {
-  --color-void: #0a0a0b;
-  --color-panel: #121214;
-  --color-panel2: #18181b;
-  --color-edge: #232328;
-  --color-edge2: #2e2e35;
-  --color-ink: #edede8;
-  --color-muted: #8a8a93;
-  --color-dim: #55555e;
+  --color-void: #000000;
+  --color-panel: #0a0a0a;
+  --color-panel2: #121212;
+  --color-edge: #1b1b1b;
+  --color-edge2: #2a2a2a;
+  --color-ink: #ffffff;
+  --color-muted: #c9c9c9;
+  --color-dim: #7a7a7a;
+  --color-hot: #ff2400;
   --color-acid: #c8ff00;
   --color-volt: #4da6ff;
   --color-strobe: #ff4dc4;
   --color-sodium: #ffb224;
-  --color-siren: #ff3b30;
+  --color-siren: #ff2400;
 
-  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-display: var(--font-archivo-black), "Arial Black", sans-serif;
+  --font-body: var(--font-inter), Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 :root {
-  --accent: #c8ff00;
+  --accent: #ff2400;
 }
 
 html {
@@ -57,6 +61,27 @@ body {
 
 .display {
   font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.035em;
+  font-weight: 400; /* Archivo Black ships one weight */
+}
+
+/* hot ticker — the tweakmo.de marquee device */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ticker {
+  background: var(--color-hot);
+  color: #000;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker > div {
+  display: inline-block;
+  animation: ticker 24s linear infinite;
+  font-family: var(--font-display);
+  text-transform: uppercase;
   letter-spacing: -0.02em;
 }
 

@@ -2,21 +2,28 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 
+const TICKER_ITEMS =
+  "TWEAK IS A PROGRAM // EVERYBODY HAS A NAME IN HERE // DROP TRACKS // RUN YOUR ROOMS // GO LIVE // ";
+
 export default async function Landing() {
   const user = await getCurrentUser();
   if (user) redirect("/feed");
 
   return (
-    <main className="bg-profile-haze relative flex min-h-dvh flex-col">
+    <main className="relative flex min-h-dvh flex-col bg-void">
       <header className="flex items-center justify-between px-6 py-5">
-        <span className="display text-xl font-bold tracking-tight">TWEAK</span>
-        <nav className="flex items-center gap-6">
-          <Link href="/login" className="tag hover:text-ink">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/brand/tweak-logo-w.png" alt="TWEAK" className="h-10 w-auto" />
+        <nav className="flex items-center gap-3">
+          <Link
+            href="/login"
+            className="bg-panel px-4 py-2 font-mono text-[10px] tracking-[0.18em] text-muted hover:text-ink"
+          >
             LOG IN
           </Link>
           <Link
             href="/signup"
-            className="border border-(--accent) px-4 py-1.5 font-mono text-[11px] tracking-[0.15em] text-(--accent) transition hover:bg-(--accent) hover:text-black"
+            className="bg-hot px-4 py-2 font-mono text-[10px] tracking-[0.18em] text-white transition hover:opacity-85"
           >
             GET IN
           </Link>
@@ -25,31 +32,37 @@ export default async function Landing() {
 
       <section className="flex flex-1 flex-col items-start justify-center px-6 md:px-16">
         <div className="tag mb-6">01 // THE NETWORK</div>
-        <h1 className="display max-w-3xl text-5xl font-bold leading-[1.02] md:text-7xl">
-          When rage becomes the norm,
-          <br />
-          <span className="text-(--accent)">TWEAK</span> becomes the next thing.
+        <h1 className="display max-w-4xl text-5xl leading-[0.95] md:text-7xl">
+          When rage becomes the norm,{" "}
+          <span className="text-hot">TWEAK</span> becomes the next thing.
         </h1>
         <p className="mt-6 max-w-xl text-base leading-relaxed text-muted">
           A home for the counterculture. Drop tracks, build your space, run your
           rooms, go live. Music first. Community second. Everybody has a name in
           here.
         </p>
-        <div className="mt-10 flex gap-4">
+        <div className="mt-10 flex gap-3">
           <Link
             href="/signup"
-            className="bg-(--accent) px-6 py-3 font-mono text-xs tracking-[0.2em] text-black transition hover:opacity-80"
+            className="bg-hot px-6 py-3 font-mono text-xs tracking-[0.2em] text-white transition hover:opacity-85"
           >
             CLAIM YOUR NAME
           </Link>
           <Link
             href="/login"
-            className="border border-edge2 px-6 py-3 font-mono text-xs tracking-[0.2em] text-ink transition hover:border-ink"
+            className="bg-panel px-6 py-3 font-mono text-xs tracking-[0.2em] text-muted transition hover:text-ink"
           >
             I HAVE ONE
           </Link>
         </div>
       </section>
+
+      <div className="ticker py-2 text-lg">
+        <div>
+          {TICKER_ITEMS}
+          {TICKER_ITEMS}
+        </div>
+      </div>
 
       <section className="grid grid-cols-1 gap-px border-t border-edge bg-edge md:grid-cols-4">
         {[
@@ -59,7 +72,7 @@ export default async function Landing() {
           ["04 // LIVE", "Broadcast sets. Chat runs hot."],
         ].map(([t, d]) => (
           <div key={t} className="bg-void p-6">
-            <div className="tag text-(--accent)">{t}</div>
+            <div className="tag text-hot">{t}</div>
             <p className="mt-2 text-sm text-muted">{d}</p>
           </div>
         ))}

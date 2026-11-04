@@ -137,7 +137,7 @@ async function main() {
       bio: "Shot from inside it. Phone-height footage only. No crew with a laminate.\nAustin, TX.",
       location: "Austin, TX",
       genres: "rage,experimental",
-      accentColor: "red",
+      accentColor: "hot",
       profileBg: "static",
       statusLine: "if you were there, it belongs here",
       isVerified: true,
@@ -161,7 +161,7 @@ async function main() {
       bio: "Slow poison for fast rooms.",
       location: "Berlin",
       genres: "ebm,industrial",
-      accentColor: "magenta",
+      accentColor: "strobe",
       profileBg: "scanline",
       statusLine: "mastering at 4am again",
     },
@@ -172,7 +172,7 @@ async function main() {
       bio: "Independent label. Demos: open. Taste: not negotiable.",
       location: "Detroit",
       genres: "techno,electro,dub",
-      accentColor: "blue",
+      accentColor: "volt",
       profileBg: "haze",
       statusLine: "SK-019 out now",
       isVerified: true,
@@ -184,7 +184,7 @@ async function main() {
       bio: "I find the rooms. You bring the noise. 18+.",
       location: "Austin, TX",
       genres: "techno,hardgroove",
-      accentColor: "amber",
+      accentColor: "sodium",
       profileBg: "void",
       statusLine: "location drops 2 hours before",
     },
@@ -195,7 +195,7 @@ async function main() {
       bio: "clipping is a lifestyle",
       location: "Houston",
       genres: "rage,footwork",
-      accentColor: "red",
+      accentColor: "hot",
       profileBg: "static",
       statusLine: "wav files or nothing",
     },
@@ -210,11 +210,11 @@ async function main() {
 
   // tracks with synthesized audio
   const ACCENT_HEX: Record<string, string> = {
+    hot: "#ff2400",
     acid: "#c8ff00",
-    blue: "#4da6ff",
-    magenta: "#ff4dc4",
-    amber: "#ffb224",
-    red: "#ff3b30",
+    volt: "#4da6ff",
+    strobe: "#ff4dc4",
+    sodium: "#ffb224",
   };
 
   const TRACKS: Array<{
@@ -227,12 +227,12 @@ async function main() {
   }> = [
     { user: "noize_atx", title: "battery acid", genre: "acid", bpm: 138, flavor: "acid", accent: "acid" },
     { user: "noize_atx", title: "sip haus opener", genre: "techno", bpm: 132, flavor: "acid", accent: "acid" },
-    { user: "velvetcrypt", title: "cold compress", genre: "ebm", bpm: 118, flavor: "dub", accent: "magenta" },
-    { user: "velvetcrypt", title: "mourning routine", genre: "industrial", bpm: 124, flavor: "rage", accent: "magenta" },
-    { user: "subkultur", title: "SK-019 A1 — tunnel logic", genre: "techno", bpm: 134, flavor: "acid", accent: "blue" },
-    { user: "subkultur", title: "SK-019 B2 — dub answer", genre: "dub", bpm: 120, flavor: "dub", accent: "blue" },
-    { user: "lil_threshold", title: "REDLINE!!", genre: "rage", bpm: 150, flavor: "rage", accent: "red" },
-    { user: "bsctv", title: "room tone (live rip)", genre: "experimental", bpm: 128, flavor: "dub", accent: "red" },
+    { user: "velvetcrypt", title: "cold compress", genre: "ebm", bpm: 118, flavor: "dub", accent: "strobe" },
+    { user: "velvetcrypt", title: "mourning routine", genre: "industrial", bpm: 124, flavor: "rage", accent: "strobe" },
+    { user: "subkultur", title: "SK-019 A1 — tunnel logic", genre: "techno", bpm: 134, flavor: "acid", accent: "volt" },
+    { user: "subkultur", title: "SK-019 B2 — dub answer", genre: "dub", bpm: 120, flavor: "dub", accent: "volt" },
+    { user: "lil_threshold", title: "REDLINE!!", genre: "rage", bpm: 150, flavor: "rage", accent: "hot" },
+    { user: "bsctv", title: "room tone (live rip)", genre: "experimental", bpm: 128, flavor: "dub", accent: "hot" },
   ];
 
   const trackIds: Record<string, string> = {};

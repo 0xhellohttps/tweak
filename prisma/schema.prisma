@@ -36,7 +36,7 @@ model User {
   spotify    String @default("")
 
   // myspace-style customization
-  accentColor     String  @default("acid") // acid | blue | magenta | amber | red
+  accentColor     String  @default("hot") // hot | acid | volt | strobe | sodium
   profileBg       String  @default("void") // void | static | grid | haze | scanline
   sectionOrder    String  @default("featured,posts,tracks,circles,friends,about")
   featuredTrackId String?

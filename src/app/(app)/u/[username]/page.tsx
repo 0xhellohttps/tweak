@@ -36,7 +36,7 @@ export default async function ProfilePage({
   if (!user || user.isSuspended) notFound();
 
   const isMe = me?.id === user.id;
-  const accent = ACCENTS[user.accentColor]?.hex ?? ACCENTS.acid.hex;
+  const accent = ACCENTS[user.accentColor]?.hex ?? ACCENTS.hot.hex;
   const isPrivateToMe = user.isPrivate && !isMe;
 
   const trackCards = user.tracks.map((t) => serializeTrack(t, me?.id));

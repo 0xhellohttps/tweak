@@ -10,8 +10,9 @@ export default function LoginPage() {
   return (
     <main className="bg-profile-grid flex min-h-dvh items-center justify-center px-4">
       <div className="w-full max-w-sm border border-edge bg-panel p-8">
-        <Link href="/" className="display text-xl font-bold">
-          TWEAK
+        <Link href="/">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/tweak-logo-w.png" alt="TWEAK" className="h-9 w-auto" />
         </Link>
         <div className="tag mt-6 mb-4">01 // GET BACK IN</div>
         <form action={action} className="space-y-4">
@@ -37,7 +38,7 @@ export default function LoginPage() {
           {state.error && <p className="text-xs text-siren">{state.error}</p>}
           <button
             disabled={pending}
-            className="w-full cursor-pointer bg-(--accent) py-2.5 font-mono text-xs tracking-[0.2em] text-black transition hover:opacity-80 disabled:opacity-50"
+            className="w-full cursor-pointer bg-hot py-2.5 font-mono text-xs tracking-[0.2em] text-white transition hover:opacity-85 disabled:opacity-50"
           >
             {pending ? "..." : "LOG IN"}
           </button>

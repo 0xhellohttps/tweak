@@ -32,8 +32,9 @@ export async function Sidebar() {
 
   return (
     <aside className="fixed inset-y-0 left-0 z-40 hidden w-56 flex-col border-r border-edge bg-void md:flex">
-      <Link href="/feed" className="display block px-5 py-5 text-xl font-bold tracking-tight">
-        TWEAK
+      <Link href="/feed" className="block px-5 py-5">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/brand/tweak-logo-w.png" alt="TWEAK" className="h-9 w-auto" />
       </Link>
 
       <nav className="px-3">

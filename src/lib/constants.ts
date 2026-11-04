@@ -39,12 +39,13 @@ export const GENRES = [
 ] as const;
 
 // Controlled customization: users pick from these, never arbitrary CSS.
+// "hot" is the tweakmo.de brand red and the default.
 export const ACCENTS: Record<string, { label: string; hex: string }> = {
+  hot: { label: "HOT", hex: "#ff2400" },
   acid: { label: "ACID", hex: "#c8ff00" },
-  blue: { label: "VOLT", hex: "#4da6ff" },
-  magenta: { label: "STROBE", hex: "#ff4dc4" },
-  amber: { label: "SODIUM", hex: "#ffb224" },
-  red: { label: "SIREN", hex: "#ff3b30" },
+  volt: { label: "VOLT", hex: "#4da6ff" },
+  strobe: { label: "STROBE", hex: "#ff4dc4" },
+  sodium: { label: "SODIUM", hex: "#ffb224" },
 };
 
 export const PROFILE_BGS: Record<string, { label: string }> = {
