@@ -1,3 +1,5 @@
+import { asset } from "@/lib/assets";
+
 const PALETTE = ["#ff2400", "#c8ff00", "#4da6ff", "#ff4dc4", "#ffb224"];
 
 export function Avatar({
@@ -13,7 +15,7 @@ export function Avatar({
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={avatarUrl}
+        src={asset(avatarUrl)}
         alt={name}
         width={size}
         height={size}

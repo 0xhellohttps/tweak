@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { asset } from "@/lib/assets";
 
 export type PlayerTrack = {
   id: string;
@@ -67,13 +68,13 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   const load = useCallback((track: PlayerTrack) => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.src = track.audioUrl;
+    audio.src = asset(track.audioUrl);
     audio.play().catch(() => {});
     setCurrent(track);
     setPlaying(true);
     setProgress(0);
     // fire-and-forget play count
-    fetch(`/api/tracks/${track.id}/play`, { method: "POST" }).catch(() => {});
+    fetch(asset(`/api/tracks/${track.id}/play`), { method: "POST" }).catch(() => {});
   }, []);
 
   const play = useCallback(

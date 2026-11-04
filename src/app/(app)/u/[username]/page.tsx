@@ -9,6 +9,7 @@ import { PostCard } from "@/components/post-card";
 import { ACCENTS, PROFILE_SECTIONS, COMMUNITY_NOUN_PLURAL } from "@/lib/constants";
 import { postInclude, serializeTrack, trackInclude } from "@/lib/queries";
 import { formatCount } from "@/lib/format";
+import { asset } from "@/lib/assets";
 
 export default async function ProfilePage({
   params,
@@ -208,7 +209,7 @@ export default async function ProfilePage({
       <div className="relative h-44 border-b border-edge md:h-60">
         {user.coverUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={user.coverUrl} alt="" className="h-full w-full object-cover" />
+          <img src={asset(user.coverUrl)} alt="" className="h-full w-full object-cover" />
         ) : (
           <div
             className="h-full w-full"

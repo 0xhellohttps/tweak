@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { register } from "@/lib/actions/auth";
 import { ACCOUNT_ROLES } from "@/lib/constants";
+import { asset } from "@/lib/assets";
 
 export default function SignupPage() {
   const [state, action, pending] = useActionState(register, {});
@@ -13,7 +14,7 @@ export default function SignupPage() {
       <div className="w-full max-w-md border border-edge bg-panel p-8">
         <Link href="/">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/tweak-logo-w.png" alt="TWEAK" className="h-9 w-auto" />
+          <img src={asset("/brand/tweak-logo-w.png")} alt="TWEAK" className="h-9 w-auto" />
         </Link>
         <div className="tag mt-6 mb-4">01 // CLAIM YOUR NAME</div>
         <form action={action} className="space-y-4">

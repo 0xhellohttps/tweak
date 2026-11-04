@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { Avatar } from "./avatar";
 import { logout } from "@/lib/actions/auth";
 import { COMMUNITY_NOUN_PLURAL } from "@/lib/constants";
+import { asset } from "@/lib/assets";
 
 const NAV = [
   ["01", "FEED", "/feed"],
@@ -34,7 +35,7 @@ export async function Sidebar() {
     <aside className="fixed inset-y-0 left-0 z-40 hidden w-56 flex-col border-r border-edge bg-void md:flex">
       <Link href="/feed" className="block px-5 py-5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/brand/tweak-logo-w.png" alt="TWEAK" className="h-9 w-auto" />
+        <img src={asset("/brand/tweak-logo-w.png")} alt="TWEAK" className="h-9 w-auto" />
       </Link>
 
       <nav className="px-3">

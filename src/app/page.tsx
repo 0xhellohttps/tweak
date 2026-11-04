@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
+import { asset } from "@/lib/assets";
 
 const TICKER_ITEMS =
   "TWEAK IS A PROGRAM // EVERYBODY HAS A NAME IN HERE // DROP TRACKS // RUN YOUR ROOMS // GO LIVE // ";
@@ -13,7 +14,7 @@ export default async function Landing() {
     <main className="relative flex min-h-dvh flex-col bg-void">
       <header className="flex items-center justify-between px-6 py-5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/brand/tweak-logo-w.png" alt="TWEAK" className="h-10 w-auto" />
+        <img src={asset("/brand/tweak-logo-w.png")} alt="TWEAK" className="h-10 w-auto" />
         <nav className="flex items-center gap-3">
           <Link
             href="/login"

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePlayer } from "./player";
 import { formatDuration } from "@/lib/format";
+import { asset } from "@/lib/assets";
 
 export function PlayerBar() {
   const { current, playing, progress, duration, toggle, seek, next, prev } = usePlayer();
@@ -17,7 +18,7 @@ export function PlayerBar() {
           {current.artworkUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={current.artworkUrl}
+              src={asset(current.artworkUrl)}
               alt=""
               className="h-10 w-10 shrink-0 border border-edge object-cover"
             />

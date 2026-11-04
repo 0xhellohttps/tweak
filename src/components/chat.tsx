@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { sendMessage } from "@/lib/actions/rooms";
 import { Avatar } from "./avatar";
+import { asset } from "@/lib/assets";
 
 export type ChatMessage = {
   id: string;
@@ -31,7 +32,7 @@ export function Chat({
     const poll = async () => {
       try {
         const qs = lastTs.current ? `?since=${encodeURIComponent(lastTs.current)}` : "";
-        const res = await fetch(`/api/channels/${channelId}/messages${qs}`);
+        const res = await fetch(asset(`/api/channels/${channelId}/messages${qs}`));
         if (!res.ok || !active) return;
         const data = (await res.json()) as { messages: ChatMessage[] };
         if (data.messages.length) {

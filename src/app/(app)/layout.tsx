@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Sidebar } from "@/components/sidebar";
+import { asset } from "@/lib/assets";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,7 +10,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-edge bg-void/95 px-4 py-3 backdrop-blur md:hidden">
         <Link href="/feed">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/tweak-logo-w.png" alt="TWEAK" className="h-7 w-auto" />
+          <img src={asset("/brand/tweak-logo-w.png")} alt="TWEAK" className="h-7 w-auto" />
         </Link>
         <nav className="flex gap-4">
           <Link href="/feed" className="tag hover:text-ink">

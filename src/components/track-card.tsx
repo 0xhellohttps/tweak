@@ -5,6 +5,7 @@ import { useMemo, useTransition } from "react";
 import { usePlayer, type PlayerTrack } from "./player";
 import { toggleLike, toggleRepost } from "@/lib/actions/social";
 import { formatCount, formatDuration } from "@/lib/format";
+import { asset } from "@/lib/assets";
 
 export type TrackCardData = PlayerTrack & {
   genre: string;
@@ -55,7 +56,7 @@ export function TrackCard({
       >
         {track.artworkUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={track.artworkUrl} alt="" className="h-full w-full object-cover" />
+          <img src={asset(track.artworkUrl)} alt="" className="h-full w-full object-cover" />
         ) : (
           <div className="h-full w-full bg-panel2" />
         )}

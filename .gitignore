@@ -49,3 +49,6 @@ prisma/dev.db-journal
 
 # generated prisma client
 /src/generated/
+
+# demo build
+/.next-demo/

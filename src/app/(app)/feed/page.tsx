@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { Composer } from "@/components/composer";
@@ -14,18 +13,19 @@ export default async function FeedPage({
   searchParams: Promise<{ tab?: string }>;
 }) {
   const user = await getCurrentUser();
-  if (!user) redirect("/login");
   const { tab } = await searchParams;
-  const followingOnly = tab === "following";
+  const followingOnly = tab === "following" && !!user;
 
-  const followees = await db.follow.findMany({
-    where: { followerId: user.id },
-    select: { followeeId: true },
-  });
+  const followees = user
+    ? await db.follow.findMany({
+        where: { followerId: user.id },
+        select: { followeeId: true },
+      })
+    : [];
   const followeeIds = followees.map((f) => f.followeeId);
 
   const posts = await db.post.findMany({
-    where: followingOnly ? { userId: { in: [...followeeIds, user.id] } } : {},
+    where: followingOnly ? { userId: { in: [...followeeIds, user!.id] } } : {},
     orderBy: { createdAt: "desc" },
     take: 40,
     include: postInclude,
@@ -36,13 +36,13 @@ export default async function FeedPage({
   const tracks = trackIds.length
     ? await db.track.findMany({ where: { id: { in: trackIds } }, include: trackInclude })
     : [];
-  const trackMap = new Map(tracks.map((t) => [t.id, serializeTrack(t, user.id)]));
+  const trackMap = new Map(tracks.map((t) => [t.id, serializeTrack(t, user?.id)]));
 
   // right rail data
   const [suggested, freshTracks] = await Promise.all([
     db.user.findMany({
       where: {
-        id: { notIn: [...followeeIds, user.id] },
+        id: { notIn: user ? [...followeeIds, user.id] : [] },
         isSuspended: false,
         isPrivate: false,
       },
@@ -69,16 +69,30 @@ export default async function FeedPage({
             >
               EVERYONE
             </Link>
-            <Link
-              href="/feed?tab=following"
-              className={`tag ${followingOnly ? "text-(--accent)" : "hover:text-ink"}`}
-            >
-              FOLLOWING
-            </Link>
+            {user && (
+              <Link
+                href="/feed?tab=following"
+                className={`tag ${followingOnly ? "text-(--accent)" : "hover:text-ink"}`}
+              >
+                FOLLOWING
+              </Link>
+            )}
           </div>
         </div>
 
-        <Composer avatarUrl={user.avatarUrl} displayName={user.displayName} />
+        {user ? (
+          <Composer avatarUrl={user.avatarUrl} displayName={user.displayName} />
+        ) : (
+          <div className="flex items-center justify-between border border-edge bg-panel p-4">
+            <p className="text-sm text-muted">You&apos;re reading the wire. Get a name to transmit.</p>
+            <Link
+              href="/signup"
+              className="shrink-0 bg-hot px-4 py-2 font-mono text-[10px] tracking-[0.18em] text-white transition hover:opacity-85"
+            >
+              GET IN
+            </Link>
+          </div>
+        )}
 
         <div className="mt-4 space-y-3">
           {posts.length === 0 && (
@@ -96,7 +110,7 @@ export default async function FeedPage({
               key={post.id}
               post={post}
               track={post.trackId ? trackMap.get(post.trackId) ?? null : null}
-              meId={user.id}
+              meId={user?.id ?? null}
             />
           ))}
         </div>
@@ -116,7 +130,7 @@ export default async function FeedPage({
                     <div className="tag truncate">{s.roles.split(",")[0]}</div>
                   </div>
                 </Link>
-                <FollowButton userId={s.id} following={false} />
+                {user && <FollowButton userId={s.id} following={false} />}
               </div>
             ))}
           </div>

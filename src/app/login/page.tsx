@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { login } from "@/lib/actions/auth";
+import { asset } from "@/lib/assets";
 
 export default function LoginPage() {
   const [state, action, pending] = useActionState(login, {});
@@ -12,7 +13,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm border border-edge bg-panel p-8">
         <Link href="/">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/tweak-logo-w.png" alt="TWEAK" className="h-9 w-auto" />
+          <img src={asset("/brand/tweak-logo-w.png")} alt="TWEAK" className="h-9 w-auto" />
         </Link>
         <div className="tag mt-6 mb-4">01 // GET BACK IN</div>
         <form action={action} className="space-y-4">
