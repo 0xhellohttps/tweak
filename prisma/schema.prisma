@@ -1,0 +1,226 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // identity
+  displayName String
+  bio         String  @default("")
+  location    String  @default("")
+  avatarUrl   String?
+  coverUrl    String?
+  roles       String  @default("LISTENER") // comma-separated: LISTENER,DJ,PRODUCER,ARTIST,LABEL,COLLECTIVE,PROMOTER,VENUE,RADIO
+  genres      String  @default("") // comma-separated tags
+  isPrivate   Boolean @default(false)
+  isVerified  Boolean @default(false)
+  isSuspended Boolean @default(false)
+
+  // social links
+  website    String @default("")
+  instagram  String @default("")
+  soundcloud String @default("")
+  bandcamp   String @default("")
+  youtube    String @default("")
+  spotify    String @default("")
+
+  // myspace-style customization
+  accentColor     String  @default("acid") // acid | blue | magenta | amber | red
+  profileBg       String  @default("void") // void | static | grid | haze | scanline
+  sectionOrder    String  @default("featured,posts,tracks,circles,friends,about")
+  featuredTrackId String?
+  statusLine      String  @default("") // short "now" status, X-style
+  topFriends      String  @default("") // comma-separated user ids, ordered
+
+  tracks         Track[]
+  posts          Post[]
+  likes          Like[]
+  reposts        Repost[]
+  comments       Comment[]
+  playlists      Playlist[]
+  memberships    CommunityMember[]
+  messages       Message[]
+  ownedCircles   Community[]       @relation("CircleOwner")
+  following      Follow[]          @relation("follower")
+  followers      Follow[]          @relation("followee")
+  streams        Stream[]
+}
+
+model Follow {
+  followerId String
+  followeeId String
+  createdAt  DateTime @default(now())
+  follower   User     @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followee   User     @relation("followee", fields: [followeeId], references: [id], onDelete: Cascade)
+
+  @@id([followerId, followeeId])
+}
+
+model Track {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @default("")
+  genre       String   @default("")
+  bpm         Int?
+  audioUrl    String
+  artworkUrl  String?
+  duration    Int      @default(0) // seconds
+  playCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  likes          Like[]
+  reposts        Repost[]
+  comments       Comment[]
+  playlistTracks PlaylistTrack[]
+}
+
+model Playlist {
+  id        String          @id @default(cuid())
+  name      String
+  userId    String
+  createdAt DateTime        @default(now())
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tracks    PlaylistTrack[]
+}
+
+model PlaylistTrack {
+  playlistId String
+  trackId    String
+  position   Int
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  track      Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@id([playlistId, trackId])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  body      String
+  imageUrl  String?
+  trackId   String? // attach a track to a post
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  likes    Like[]
+  reposts  Repost[]
+  comments Comment[]
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  trackId   String?
+  postId    String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, trackId])
+  @@unique([userId, postId])
+}
+
+model Repost {
+  id        String   @id @default(cuid())
+  userId    String
+  trackId   String?
+  postId    String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, trackId])
+  @@unique([userId, postId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  body      String
+  createdAt DateTime @default(now())
+  userId    String
+  trackId   String?
+  postId    String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  track     Track?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+// ---- Circles (communities) ----
+
+model Community {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String   @default("")
+  logoUrl     String?
+  bannerUrl   String?
+  isPrivate   Boolean  @default(false)
+  rules       String   @default("")
+  createdAt   DateTime @default(now())
+  ownerId     String
+  owner       User     @relation("CircleOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  members  CommunityMember[]
+  channels Channel[]
+}
+
+model CommunityMember {
+  communityId String
+  userId      String
+  role        String   @default("MEMBER") // OWNER | ADMIN | MOD | MEMBER
+  status      String   @default("ACTIVE") // ACTIVE | PENDING | BANNED
+  joinedAt    DateTime @default(now())
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([communityId, userId])
+}
+
+model Channel {
+  id          String    @id @default(cuid())
+  name        String
+  kind        String    @default("TEXT") // TEXT | VOICE | LIVE
+  position    Int       @default(0)
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  messages    Message[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  body      String
+  createdAt DateTime @default(now())
+  channelId String
+  userId    String
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([channelId, createdAt])
+}
+
+// ---- Live (Twitch-inspired, MVP: status + chat via channel) ----
+
+model Stream {
+  id        String    @id @default(cuid())
+  title     String
+  isLive    Boolean   @default(false)
+  startedAt DateTime?
+  viewerPeak Int      @default(0)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TWEAK
 
-## Getting Started
+A niche social platform for the underground music community. Part Discord, part
+MySpace, part SoundCloud, part Twitch — with its own identity, built on the
+[tweakmo.de](https://tweakmo.de) brand language.
 
-First, run the development server:
+**Music first. Community second.**
+
+## Staging preview
+
+Static preview (screenshots + brand page) is published on GitHub Pages from
+`/docs`. The full app is dynamic (auth, SQLite, uploads, chat) and needs a
+Node host — deploy to Vercel/Fly/Railway for an interactive staging URL.
+
+## Features (MVP)
+
+- **Accounts** — email/password auth, multi-role identity (DJ, producer, label,
+  venue, radio…), private profiles, account deletion.
+- **Spaces (MySpace-style profiles)** — accent color, background treatment,
+  drag-and-drop section ordering, featured track, top friends, status line,
+  social links, genres.
+- **Sound (SoundCloud-style)** — track upload with artwork, genre doors,
+  persistent bottom player with queue/seek, waveforms, likes, reposts,
+  play counts.
+- **Feed (X-style)** — transmissions (posts), attached tracks, likes, reposts,
+  everyone/following tabs.
+- **Rooms (Discord-style communities)** — channels, member roles
+  (owner/admin/mod), private rooms with approval, live-ish chat (polling),
+  rules, member directory.
+- **Live (Twitch-inspired)** — go-live status, live-now rail in the sidebar.
+  RTMP/WebRTC broadcast is the next milestone.
+
+## Stack
+
+Next.js 16 (App Router, server actions) · TypeScript · Tailwind 4 ·
+Prisma 7 + SQLite (better-sqlite3 adapter) · jose sessions · bcryptjs.
+
+## Run it
 
 ```bash
+npm install
+npm run db:push    # create prisma/dev.db
+npm run db:seed    # demo users, rooms, synthesized audio loops
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 — demo login: `noize_atx` / `tweaktweak`
+(all seeded users share the password).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+prisma/schema.prisma      data model (users, tracks, posts, rooms, streams)
+prisma/seed.ts            demo data + WAV synth + SVG artwork generators
+src/lib/auth.ts           JWT cookie sessions
+src/lib/actions/          server actions (auth, profile, social, tracks, rooms, live)
+src/app/(app)/            authenticated shell: feed, discover, live, rooms, u/, settings
+src/components/           player, track cards, chat, space editor
+docs/                     GitHub Pages static staging preview
+```
